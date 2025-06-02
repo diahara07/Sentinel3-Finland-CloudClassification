@@ -1,1 +1,1 @@
-# Sentinel3-Finland-CloudClassification
+# Sentinel 3-Finland-Cloud Classification

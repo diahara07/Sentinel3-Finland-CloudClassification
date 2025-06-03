@@ -204,6 +204,9 @@ for i, chunk in enumerate(chunks):
     plt.title(f'Chunk {i+1}')
     plt.show()
 ```
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/chunk%20split%205%20bands.png)
+
+
 ## Load in the .npy file containing the stacked bands
 ```
 import numpy as np

@@ -187,7 +187,7 @@ data = np.load(radiance_npy_path)
 import numpy as np
 import matplotlib.pyplot as plt
 
-file_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3'
+file_dir = '/content/drive/dataset'
 os.chdir(file_dir)
 
 # load data
@@ -216,7 +216,7 @@ from sklearn.cluster import KMeans
 # from sklearn.mixture import GaussianMixture # If you want to try GMM
 # from skimage.morphology import binary_opening, binary_closing, disk # For post-processing
 
-nc_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3'
+nc_dir = '/content/drive/dataset'
 radiance_npy_path = os.path.join(nc_dir, 'radiance.npy')
 
 try:
@@ -314,7 +314,7 @@ plt.axis('off')
 # cluster_id_cloud_shadow = Z
 
 # Then generate masks as shown in the previous response.
-save_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3' # Or specify another directory
+save_dir = '/content/drive/MyDrive' # Or specify another directory
 image_filename = 'rgb_and_clusters_comparison.png' # Choose a suitable filename and format (.png, .jpg, .pdf, etc.)
 save_path = os.path.join(save_dir, image_filename)
 
@@ -337,6 +337,75 @@ plt.show()
 ```
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/rgb_and_clusters_comparison.png)
 
+## Visualize and plot the K Means Cluster Mask
+```
+# After visualizing and identifying the clusters
+# Replace these with the actual cluster IDs you observe corresponding to different categories
+cluster_id_clear = 1  # Example: Assume cluster 0 is clear sky
+cluster_id_thick_cloud = 3 # Example: Assume cluster 1 is thick cloud
+cluster_id_thin_cloud = 2  # Example: Assume cluster 2 is thin cloud
+cluster_id_cloud_shadow = 0 # Example: Assume cluster 3 is cloud shadow
+
+# Create boolean masks for each category
+clear_mask = (cluster_map == cluster_id_clear)
+thick_cloud_mask = (cluster_map == cluster_id_thick_cloud)
+thin_cloud_mask = (cluster_map == cluster_id_thin_cloud)
+cloud_shadow_mask = (cluster_map == cluster_id_cloud_shadow)
+
+# You can combine masks if needed, e.g., a total cloud mask
+total_cloud_mask = thick_cloud_mask | thin_cloud_mask
+
+# You can also create a labeled image where pixel values correspond to your labels
+# For example, 0 for clear, 1 for thin cloud, 2 for thick cloud, 3 for shadow
+labeled_image = np.zeros_like(cluster_map, dtype=np.uint8) # Use uint8 for memory efficiency
+labeled_image[clear_mask] = 0
+labeled_image[thin_cloud_mask] = 1
+labeled_image[thick_cloud_mask] = 2
+labeled_image[cloud_shadow_mask] = 3
+
+# Now you have masks and/or a labeled image representing your identified categories.
+# You can save these masks or the labeled image for further analysis or visualization.
+
+# Example: Displaying one of the masks
+plt.figure(figsize=(7, 7))
+plt.imshow(total_cloud_mask, cmap='gray') # Use a grayscale colormap for binary masks
+plt.title("Total Cloud Mask")
+plt.axis('on')
+plt.show()
+
+# Example: Displaying the labeled image
+plt.figure(figsize=(7, 7))
+plt.imshow(labeled_image, cmap='viridis') # Use a perceptually uniform colormap
+plt.title("Finland Cloud Classification")
+plt.colorbar(ticks=[0, 1, 2, 3], label="Category ID (0: Clear, 1: Thin Cloud, 2: Thick Cloud, 3: Shadow)")
+plt.axis('on')
+plt.show()
+
+# Save the Total Cloud Mask plot
+plt.figure(figsize=(7, 7))
+plt.imshow(total_cloud_mask, cmap='gray')
+plt.title("Total Cloud Mask")
+plt.axis('on') # Keep axis 'on' if you want to see pixel indices in the image save
+total_cloud_mask_image_path = os.path.join(save_dir, 'total_cloud_mask_plot.png')
+plt.savefig(total_cloud_mask_image_path, bbox_inches='tight')
+print(f"Saved total cloud mask plot to: {total_cloud_mask_image_path}")
+plt.show() # Display the plot in Colab
+
+# Save the Labeled Image plot
+plt.figure(figsize=(7, 7))
+plt.imshow(labeled_image, cmap='viridis')
+plt.title("Finland Cloud Classification")
+plt.colorbar(ticks=[0, 1, 2, 3], label="Category ID (0: Clear, 1: Thin Cloud, 2: Thick Cloud, 3: Shadow)")
+plt.axis('on') # Keep axis 'on' if you want to see pixel indices in the image save
+labeled_image_plot_path = os.path.join(save_dir, 'labeled_classification_plot.png')
+plt.savefig(labeled_image_plot_path, bbox_inches='tight')
+print(f"Saved labeled image plot to: {labeled_image_plot_path}")
+plt.show() # Display the plot in Colab
+```
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/total_cloud_mask_plot.png)
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/labeled_classification_plot.png)
+
+
 ## Calculate NDWI index 
 ```
 import numpy as np
@@ -345,7 +414,7 @@ import os
 from sklearn.cluster import KMeans
 
 # Load your stacked radiance data (from previous steps)
-nc_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3'
+nc_dir = '/content/drive/dataset'
 radiance_npy_path = os.path.join(nc_dir, 'radiance.npy')
 
 try:
@@ -382,10 +451,53 @@ print(f"NDWI calculated. Min: {np.nanmin(ndwi):.2f}, Max: {np.nanmax(ndwi):.2f}"
 
 ## Create a water mask from NDWI
 ```
-# --- Create a water mask from NDWI ---
-# You'll need to choose this threshold based on visual inspection of your NDWI image
-# Common thresholds are 0.0, 0.2, or 0.3. Experiment!
-ndwi_threshold = 0.2 # Example threshold
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+from sklearn.cluster import KMeans
+
+# Load your stacked radiance data (from previous steps)
+nc_dir = '/content/drive/dataset'
+radiance_npy_path = os.path.join(nc_dir, 'radiance.npy')
+
+try:
+    stacked_olci_data = np.load(radiance_npy_path)
+    print(f"Successfully loaded radiance.npy with shape: {stacked_olci_data.shape}")
+except FileNotFoundError:
+    print(f"Error: radiance.npy not found at {radiance_npy_path}. Please ensure it was created correctly.")
+    exit()
+
+# Get dimensions
+height, width, num_bands = stacked_olci_data.shape
+
+# --- Calculate NDWI ---
+# Ensure these indices match your actual stacked data's band order
+# Oa06 (560nm) is typically index 5 if Oa01 is 0.
+# Oa17 (865nm) is typically index 16 if Oa01 is 0.
+green_band = stacked_olci_data[:, :, 5] # Oa06_radiance
+nir_band = stacked_olci_data[:, :, 16] # Oa17_radiance
+
+# Handle potential division by zero or very small denominators
+# Add a small epsilon to avoid NaN issues where Green + NIR is zero
+epsilon = 1e-8
+ndwi = (green_band - nir_band) / (green_band + nir_band + epsilon)
+
+# Handle invalid values (e.g., if you have 65535 or similar fill values that weren't handled)
+# If your nc2npy conversion set invalid values to 0, NDWI might become NaN.
+# Let's assume you've already handled invalid radiance values, but if not,
+# you might want to mask them out here before calculating NDWI.
+# A common approach is to set NDWI to NaN where input bands are very low (e.g., in fill areas)
+# ndwi[stacked_olci_data[:, :, 0] <= 0] = np.nan # Example if 0 is your fill value in a reference band
+
+print(f"NDWI calculated. Min: {np.nanmin(ndwi):.2f}, Max: {np.nanmax(ndwi):.2f}")
+```
+
+## Create Water Mask from NDWI
+
+```
+# Choose this threshold based on visual inspection of your NDWI image
+# Common thresholds are 0.0, 0.2, or 0.3. 
+ndwi_threshold = 0.2 
 
 water_mask_ndwi = (ndwi > ndwi_threshold).astype(np.uint8) * 255 # Convert to 255 for visualization
 
@@ -396,14 +508,17 @@ water_mask_ndwi = (ndwi > ndwi_threshold).astype(np.uint8) * 255 # Convert to 25
 
 print(f"NDWI water mask created. Water pixels: {np.sum(water_mask_ndwi > 0)} out of {height * width}")
 ```
+
 ## Visualize NDWI water mask
 ```
 import matplotlib.pyplot as plt
-import numpy as np # Make sure numpy is imported if not already
+import numpy as np
+import os
 
-# Assuming 'water_mask_ndwi', 'height', and 'width' are already defined from the previous cell
+# Assuming 'water_mask_ndwi', 'height', 'width', and 'ndwi_threshold' are already defined
+# Assuming 'save_dir' (e.g., your Google Drive path) is also defined
 
-# --- Visualize the NDWI water mask ---
+# --- Visualize and Save the NDWI water mask ---
 plt.figure(figsize=(10, 10)) # Adjust figure size as needed
 plt.imshow(water_mask_ndwi, cmap='gray') # Use 'gray' colormap for binary mask
 plt.title(f"NDWI Water Mask (Threshold > {ndwi_threshold})")
@@ -411,8 +526,42 @@ plt.xlabel("Column Index")
 plt.ylabel("Row Index")
 plt.colorbar(label='Pixel Value (255 for Water, 0 for Non-Water)') # Add a colorbar to show values
 plt.axis('on') # Show axes with pixel indices
+
+# Define the filename for the saved image
+image_filename = 'ndwi_water_mask_plot.png' # Choose a suitable filename
+save_path = os.path.join(save_dir, image_filename)
+
+# Ensure the save directory exists
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+    print(f"Created directory: {save_dir}")
+
+# Save the figure BEFORE showing it
+plt.savefig(save_path, bbox_inches='tight') # bbox_inches='tight' helps prevent labels/titles being cut off
+print(f"Saved NDWI water mask plot to: {save_path}")
+
+# Display the figure (optional)
 plt.show()
+
+# Optional: Save the mask data itself as a .npy file
+# mask_data_save_path = os.path.join(save_dir, 'ndwi_water_mask.npy')
+# np.save(mask_data_save_path, water_mask_ndwi)
+# print(f"Saved NDWI water mask data to: {mask_data_save_path}")
+
+# Optional: Overlay visualization with saving (if you want to save the overlay image)
+# Assuming 'rgb_display' is available and normalized
+# plt.figure(figsize=(12, 12))
+# plt.imshow(rgb_display)
+# plt.imshow(water_mask_ndwi, cmap='Blues', alpha=0.5)
+# plt.title(f"NDWI Water Mask Overlay (Threshold > {ndwi_threshold})")
+# plt.axis('on')
+# overlay_image_save_path = os.path.join(save_dir, 'ndwi_water_mask_overlay.png')
+# plt.savefig(overlay_image_save_path, bbox_inches='tight')
+# print(f"Saved NDWI water mask overlay plot to: {overlay_image_save_path}")
+# plt.show()
 ```
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/ndwi_water_mask_plot.png)
+
 ## Compare and plot NDWI, Original Image and K-Means Cloud Masks
 
 Here we compare and plot the NDWI, Original Image and K-Means Cloud Masks. We will also overlay the NDWI water mask and K-Means Cluster Masks to evaluate and misclassifications and the efficiency of each method at detecting their respective things. 
@@ -423,7 +572,7 @@ import os
 from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay # New imports for confusion matrix
 
-# --- Re-load your stacked radiance data 
+# --- Re-load your stacked radiance data
 nc_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3'
 radiance_npy_path = os.path.join(nc_dir, 'radiance.npy')
 
@@ -452,7 +601,7 @@ water_mask_ndwi_vis = water_mask_ndwi * 255 # Mask for visualization
 
 
 # --- 2. Perform K-Means and identify the cloud clusters ---
-selected_band_indices = [1, 2, 7, 11, 14, 16, 20] 
+selected_band_indices = [1, 2, 7, 11, 14, 16, 20]
 features_for_clustering = stacked_olci_data[:, :, selected_band_indices]
 reshaped_data = features_for_clustering.reshape(-1, len(selected_band_indices))
 
@@ -471,12 +620,12 @@ cluster_map = cluster_labels.reshape(height, width)
 
 # Manually identify your K-Means CLOUD cluster ID(s) and replace value
 
-kmeans_cloud_cluster_ids = [1, 2] 
+kmeans_cloud_cluster_ids = [1, 2]
 
 # Create a combined K-Means cloud mask based on the identified cluster IDs
 kmeans_cloud_mask = np.zeros_like(cluster_map, dtype=np.uint8)
 for cloud_id in kmeans_cloud_cluster_ids:
-    kmeans_cloud_mask[cluster_map == cloud_id] = 1 
+    kmeans_cloud_mask[cluster_map == cloud_id] = 1
 
 kmeans_cloud_mask_vis = kmeans_cloud_mask * 255 # Mask for visualization
 
@@ -526,11 +675,11 @@ if not os.path.exists(save_dir):
     os.makedirs(save_dir)
     print(f"Created directory: {save_dir}")
 
-# Save the figure 
+# Save the figure
 plt.savefig(comparison_save_path, bbox_inches='tight')
 print(f"Saved comparison plot to: {comparison_save_path}")
 
-# Display the figure 
+# Display the figure
 plt.show()
 
 
@@ -552,11 +701,11 @@ plt.axis('on')
 side_by_side_filename = 'ndwi_water_kmeans_cloud_side_by_side_plot.png'
 side_by_side_save_path = os.path.join(save_dir, side_by_side_filename)
 
-# Ensure the save directory exists 
+# Ensure the save directory exists
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
-# Save figure 
+# Save figure
 plt.savefig(side_by_side_save_path, bbox_inches='tight')
 print(f"Saved side-by-side plot to: {side_by_side_save_path}")
 
@@ -600,6 +749,13 @@ agreement = neither_water_nor_cloud / total_pixels
 print(f"Agreement (Neither Water nor Cloud): {agreement:.3f}")
 
 ```
+
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/ndwi_kmeans_water_comparison_plot.png)
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/ndwi_kmeans_water_side_by_side_plot.png)
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/ndwi_water_kmeans_cloud_side_by_side_plot.png)
+
+
+
 ## Generate a confusion matrix 
 ```
 import numpy as np
@@ -609,7 +765,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report # Ensure classification_report is imported
 
 # --- Re-load your stacked radiance data (if not already in memory) ---
-nc_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3'
+nc_dir = '/content/drive/dataset'
 radiance_npy_path = os.path.join(nc_dir, 'radiance.npy')
 
 try:

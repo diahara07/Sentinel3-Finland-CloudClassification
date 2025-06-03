@@ -32,9 +32,9 @@ K-Means clustering is an unsupervised learning algorithm that organizes a datase
 
 
 ## Data Overview
-data link:
-INSERT SENTINEL 3 SCREENSHOT
-As seen from the data above, the Sentinel 3 data encompasses Finland as well as parts of Russia.
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/cb02589bfbff763e3311bc67df267abf8deff47e/images/Screenshot%202025-06-03%20000350.png)
+
+As illustrated in the figure above, the Sentinel 3 data encompasses Finland as well as some parts of Russia. The polygon used for data selection can also be seen.
 
 ## Data Preparation
 ## Mount Google Drive

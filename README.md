@@ -257,6 +257,7 @@ height, width, _ = features_for_clustering.shape # Update height, width from fea
 reshaped_data = features_for_clustering.reshape(-1, num_selected_bands)
 ```
 ## Normalization 
+
 ```
 data_min = np.min(reshaped_data)
 data_max = np.max(reshaped_data)
@@ -277,7 +278,9 @@ print(f"Clustering complete. Cluster map shape: {cluster_map.shape}")
 
 ## Create RGB composite and visualize K-means Clustering
 ```
-# Input exact band indices from radiance data
+# Assuming you have the exact band indices from your loaded radiance.npy
+# (e.g., if Oa08 is at index 7, Oa05 at index 4, Oa03 at index 2)
+# You might need to adjust these indices based on how your .nc files were stacked.
 red_band_idx = 7  # Example: Oa08
 green_band_idx = 4 # Example: Oa05
 blue_band_idx = 2 # Example: Oa03
@@ -304,15 +307,36 @@ plt.imshow(cluster_map, cmap='tab10')
 plt.title(f"K-Means Clusters (K={n_clusters})")
 plt.colorbar(ticks=range(n_clusters), label="Cluster ID")
 plt.axis('off')
-plt.show()
 
 # After visual inspection, define your cluster IDs:
 # cluster_id_thick_cloud = X
 # cluster_id_thin_cloud = Y
 # cluster_id_cloud_shadow = Z
 
-# Generate masks
+# Then generate masks as shown in the previous response.
+save_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3' # Or specify another directory
+image_filename = 'rgb_and_clusters_comparison.png' # Choose a suitable filename and format (.png, .jpg, .pdf, etc.)
+save_path = os.path.join(save_dir, image_filename)
+
+# Create the save directory if it doesn't exist
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+    print(f"Created directory: {save_dir}")
+
+# Save the figure BEFORE showing it
+plt.savefig(save_path, bbox_inches='tight') 
+print(f"Saved comparison image to: {save_path}")
+
+# Display the figure 
+plt.show()
+
+# After visual inspection, define your cluster IDs:
+# cluster_id_thick_cloud = X
+# cluster_id_thin_cloud = Y
+# cluster_id_cloud_shadow = Z
 ```
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/30008139bc9747a8af7082b011e50375bfa2a9b6/images/rgb_and_clusters_comparison.png)
+
 ## Calculate NDWI index 
 ```
 import numpy as np

@@ -11,7 +11,13 @@ Traditional cloud detection often relies on complex physical models such as Fmas
 To provide a an assessment of the k means clustering algorithms performance in distinguishing distinct environmental features, the K-Means derived algorithm of clouds is compared against a reference mask generated using the Normalized Difference Water Index (NDWI), a widely recognized spectral index for water detection. This comparison offers a quantitative insight into the clustering's ability to accurately differentiate between water and other land cover types, complementing its primary goal of cloud and shadow masking.
 
 ## A figure illustrating the remote sensing technique: How does Sentinel-3 work?
-![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/6faf08f6d0046c0180558474cdd37b5c0324e02d/images/SENTINEL%203%20INFOGRAPHIC.pptx)
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/02ae71d6e95e7a3b5f8a3e826aace469a789d232/images/SENTINEL%203%20FIGURE%20AI.png)
+
+References:
+EUMETSAT. Sentinel-3 OLCI Level 1 Data Guide. Accessed June 3, 2025. https://user.eumetsat.int/resources/user-guides/sentinel-3-olci-level-1-data-guide.
+Copernicus. Sentinel-3 Mission. SentiWiki. Accessed June 3, 2025. https://sentiwiki.copernicus.eu/web/s3-mission.
+Sentinel-3 User Handbook, GMES-S3OP-EOPG-TN-13-0001, 2nd September 2013
+Sentinel-3, Sentinel Online (esa.int)
 
 ## A diagram of the K-means clustering algorithm and its implementation
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/82c1404d8fc2fac7a06bdcacdc6523e82947234e/images/K%20means%20image.png)

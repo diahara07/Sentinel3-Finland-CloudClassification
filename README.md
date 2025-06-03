@@ -1,6 +1,6 @@
 Youtube video link: https://youtu.be/dz12wH7tKxk
 
-Project link:
+Project link: https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/main/README.md
 
 ## Sentinel 3-Finland/Russia-Cloud Classification
 Using k-means classification to analyse SENTINEL-3 satellite data for cloud classification across Finland.

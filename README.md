@@ -751,7 +751,7 @@ The use of AI in an assistive role contributes to electricty and water usage. La
 
 To summarise, this research project contributed to energy consumption and gas emissions by tilising satellite data and computational analysis. This can be mitigated by optimizing code to reduce computation time, only using AI when necessary and opting to choose data centres that use more renewable energy sources. 
 
-<!-- ACKNOWLEDGMENTS -->
+## Acknowledgements
 
 This project was created for GEOL0069 at University College London, taught by Dr. Michel Tsamados and Weibin Chen.
 

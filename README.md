@@ -902,6 +902,8 @@ print(f"Saved confusion matrix plot to: {confusion_matrix_save_path}")
 plt.show()
 
 ```
+
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/9ba89a46acef3a005a71af52d37301b9cc21babf/CONFUSION%20MATRIX.png)
 ### Project Conclusion
 
 The outcome of the Confusion Matrix was 51.92% which is low. This essentially means that the two different masks (NDWI water and k-mean cluster cloud) are doing a good job at distinguishing these two distinct features. A high agreement would mean that k means was misindeitfying water as cloud or vice versa, making the resulting image unuseful. This highlights that the respective methods, NDWI and k means clustering, are able to identify their respective features with reasonable accuracy. Therefore, the accuracy for each individual mask would be better assessed by comparing each to separate ground truth data rather than each other. 

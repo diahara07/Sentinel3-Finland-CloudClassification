@@ -13,7 +13,7 @@ To provide a an assessment of the k means clustering algorithms performance in d
 ## A figure illustrating the remote sensing technique: How does Sentinel-3 work?
 
 ## A diagram of the K-means clustering algorithm and its implementation
-![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/c0249def92c76f8f09af333de6bb637754c00900/K%20means%20image.png)
+![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/82c1404d8fc2fac7a06bdcacdc6523e82947234e/images/K%20means%20image.png)
 K-Means clustering is an unsupervised learning algorithm that organizes a dataset into a pre-defined number of k distinct groups. In this project, K=4. The fundamental principle involves strategically placing k centroids (central points) and then assigning each data point to the closest nearby centroid. This process ensures that points within the same cluster are as tightly grouped together as possible. It is useful when  exploring data with unknown categories since it doesn't require prior labeling of different classes. As such, it is a powerful tool for initial data exploration and uncovering natural groupings. This makes it suitable for this project because clouds are a great example of natural groupings.
 
 ## K means clustering can be broken down into the following steps: ##

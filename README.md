@@ -14,10 +14,14 @@ To provide a an assessment of the k means clustering algorithms performance in d
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/02ae71d6e95e7a3b5f8a3e826aace469a789d232/images/SENTINEL%203%20FIGURE%20AI.png)
 
 References:
+
 EUMETSAT. Sentinel-3 OLCI Level 1 Data Guide. Accessed June 3, 2025. https://user.eumetsat.int/resources/user-guides/sentinel-3-olci-level-1-data-guide.
 Copernicus. Sentinel-3 Mission. SentiWiki. Accessed June 3, 2025. https://sentiwiki.copernicus.eu/web/s3-mission.
 Sentinel-3 User Handbook, GMES-S3OP-EOPG-TN-13-0001, 2nd September 2013
 Sentinel-3, Sentinel Online (esa.int)
+University of Calgary (ucalgary.ca) https://www.ucalgary.ca/
+Welcome to the International Coastal Altimetry Community 
+www.coastalt.eu
 
 ## A diagram of the K-means clustering algorithm and its implementation
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/82c1404d8fc2fac7a06bdcacdc6523e82947234e/images/K%20means%20image.png)

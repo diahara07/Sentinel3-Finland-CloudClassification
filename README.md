@@ -8,9 +8,9 @@ Using k-means classification to analyse SENTINEL-3 satellite data for cloud clas
 ## A description of the problem to be tackled
  Optical satellite imagery is an indispensable tool for global Earth observation, however the presence of clouds and their associated shadows can create atmospheric obstructions. This obscuring of significant portions of the Earth's surface can lead to data gaps needed for consistent land cover and atmosphere montioring. Therefore, to effectively make use of high resolution optical data obtained by Sentinel 3, it is crucial to develop accurate automated methods for compensating for these interferences. 
 
-Traditional cloud detection often relies on complex physical models such as Fmask or extensive labeled training datasets, which can be time consuming. To address these limtations, this project utilises k-means clsutering, an unsupervised classification method, to classify and mask thick clouds, thin clouds, and cloud shadows within Sentinel-3 OLCI radiance imagery. Unsupervised methods are particularly valuable in remote sensing as they can derive patterns directly from the data without prior labeling, offering a flexible solution for automated processing and a flexible solution for diverse environmental conditions.
+Traditional cloud detection often relies on complex physical models such as Fmask or extensive labeled training datasets, which can be time consuming. To address these limtations, this project utilises k-means clsutering, an unsupervised classification method, to classify and mask thick clouds, thin clouds, and cloud shadows within Sentinel-3 OLCI radiance imagery. Unsupervised methods are particularly valuable in remote sensing as they can derive patterns directly from the data without prior labeling, offering a flexible solution for automated processing and a flexible solution for diverse environmental conditions. (Zhang, Y., & Wu, L. (2012)
 
-To provide a an assessment of the k means clustering algorithms performance in distinguishing distinct environmental features, the K-Means derived algorithm of clouds is compared against a reference mask generated using the Normalized Difference Water Index (NDWI), a widely recognized spectral index for water detection. This comparison offers a quantitative insight into the clustering's ability to accurately differentiate between water and other land cover types, complementing its primary goal of cloud and shadow masking.
+To provide a an assessment of the k means clustering algorithms performance in distinguishing distinct environmental features, the K-Means derived algorithm of clouds is compared against a reference mask generated using the Normalized Difference Water Index (NDWI), a widely recognized spectral index for water detection. Xu, H. (2006) This comparison offers a quantitative insight into the clustering's ability to accurately differentiate between water and other land cover types, complementing its primary goal of cloud and shadow masking.
 
 ## A figure illustrating the remote sensing technique: How does Sentinel-3 work?
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/02ae71d6e95e7a3b5f8a3e826aace469a789d232/images/SENTINEL%203%20FIGURE%20AI.png)
@@ -31,7 +31,7 @@ www.coastalt.eu
 
 ## A diagram of the K-means clustering algorithm and its implementation
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/82c1404d8fc2fac7a06bdcacdc6523e82947234e/images/K%20means%20image.png)
-K-Means clustering is an unsupervised learning algorithm that organizes a dataset into a pre-defined number of k distinct groups. In this project, K=4. The fundamental principle involves strategically placing k centroids (central points) and then assigning each data point to the closest nearby centroid. This process ensures that points within the same cluster are as tightly grouped together as possible. It is useful when  exploring data with unknown categories since it doesn't require prior labeling of different classes. As such, it is a powerful tool for initial data exploration and uncovering natural groupings. This makes it suitable for this project because clouds are a great example of natural groupings. (Unsupervised Learning — GEOL0069 Guide Book, n.d.) (Zhang, Y., & Wu, L. (2012))
+K-Means clustering is an unsupervised learning algorithm that organizes a dataset into a pre-defined number of k distinct groups. In this project, K=4. The fundamental principle involves strategically placing k centroids (central points) and then assigning each data point to the closest nearby centroid. This process ensures that points within the same cluster are as tightly grouped together as possible. It is useful when  exploring data with unknown categories since it doesn't require prior labeling of different classes. As such, it is a powerful tool for initial data exploration and uncovering natural groupings. This makes it suitable for this project because clouds are a great example of natural groupings. (Unsupervised Learning — GEOL0069 Guide Book, n.d.) 
 
 ## K means clustering can be broken down into the following steps: ##
 1. Choosing K: Choose the number of k clusters you want.
@@ -59,6 +59,8 @@ drive.mount('/content/drive')
 nc_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/dataset'
 ```
 ### Convert nc datasets to numpy .npy file and stack bands
+
+The script reads .nc files, processes them using netCDP4 and basemap packages, saves each one as an image, and then saves all the processed arrays as a single .npy file.
 
 ```
 !pip install netCDF4
@@ -274,8 +276,7 @@ selected_band_indices = [
 features_for_clustering = stacked_olci_data[:, :, selected_band_indices]
 
 # Get the new number of selected bands
-num_selected_bands = features_for_clustering.shape[-1] # This will be 7 in this example
-
+num_selected_bands = features_for_clustering.shape[-1] 
 # Reshape for clustering (pixels x features)
 height, width, _ = features_for_clustering.shape # Update height, width from features_for_clustering
 reshaped_data = features_for_clustering.reshape(-1, num_selected_bands)
@@ -290,7 +291,7 @@ else:
     normalized_data = (reshaped_data - data_min) / (data_max - data_min)
 print(f"Data normalized to range [{np.min(normalized_data):.4f}, {np.max(normalized_data):.4f}]")
 ```
-## Set the number of clusters for K-mean algorithm 
+## Set the number of clusters for K-mean algorithm     K= x
 ```
 n_clusters = 4 # Start with 4
 kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10) # n_init for robustness
@@ -413,7 +414,9 @@ plt.colorbar(label='Pixel Value (255 for Water, 0 for Non-Water)') # Add a color
 plt.axis('on') # Show axes with pixel indices
 plt.show()
 ```
-## Compare and plot NDWI, Original Image and K-Means Masks
+## Compare and plot NDWI, Original Image and K-Means Cloud Masks
+
+Here we compare and plot the NDWI, Original Image and K-Means Cloud Masks. We will also overlay the NDWI water mask and K-Means Cluster Masks to evaluate and misclassifications and the efficiency of each method at detecting their respective things. 
 ```
 import numpy as np
 import matplotlib.pyplot as plt
@@ -737,19 +740,24 @@ print(f"Saved confusion matrix plot to: {confusion_matrix_save_path}")
 # Display the figure
 plt.show()
 ```
+### Project Conclusion
+
+The outcome of the Confusion Matrix was 51.92% which is low. This essentially means that the two different masks (NDWI water and k-mean cluster cloud) are doing a good job at distinguishing these two distinct features. A high agreement would mean that k means was misindeitfying water as cloud or vice versa, making the resulting image unuseful. This highlights that the respective methods, NDWI and k means clustering, are able to identify their respective features with reasonable accuracy. Therefore, the accuracy for each individual mask would be better assessed by comparing each to separate ground truth data rather than each other. 
+
+
 ## Assessment of Environmental Cost of Research Project
 ##Satellite Operations: Sentinel 3 OLCI
-This is the most expensive aspect of this project. This is due to the required electronics, metals as well as the energy intesive nature of building such a complex satellite. Sending the Sentinel 3- OLCI into orbit requires a large amount of fuel and releases a large amount of greenhouse gases into the atmosphere, contributing to the greenhouse affect. However, this is compensated by the fact that Sentinel-3 is designed for a 7 year operational lifetime with 120 kg of hydrazine propellant allowing up to 12 years of continuous operations. This upfront cost of buildning the satellite is shared amongst its users.
+This is the most expensive aspect of this project. This is due to the required electronics, metals as well as the energy intesive nature of building such a complex satellite. Sending the Sentinel 3- OLCI into orbit requires a large amount of fuel and releases a large amount of greenhouse gases into the atmosphere, contributing to the greenhouse affect. However, this is compensated by the fact that Sentinel-3 is designed for a 7 year operational lifetime with 120 kg of hydrazine propellant allowing up to 12 years of continuous operations. This upfront cost of buildning the satellite is shared amongst its users. (European Space Agency) 
 
-To process satellite data, large amounts of energy is used for cooling systems and electricity to power data centres.  Processing Sentinel 3 Data requires huge data centres such as (EUMETSAT, ESA, Copernicus) which expend loads of energy on cooling systems. 
+To process satellite data, large amounts of energy is used for cooling systems and electricity to power data centres.  Processing Sentinel 3 Data requires huge data centres such as (EUMETSAT, ESA, Copernicus) which expend loads of energy on cooling systems. (Net Zero Insights. (2025, April 29)) (Olson, E., Grau, A., & Tipton, T. (2024, July 19))
 
 ## Computational Power (Machine Learning - K-Means)
 
-Running the K-means learning algorithm on large datasets such as stacked_olci_data, increases electricity usage due to requiring computational power from the computer's CPU. The clustering process can be equally computationally intensive for large images and clusters but for this project k=4, which is a moderate amount of centroids. This reduces the complexity of the computations, reducing energy consumption. 
+Running the K-means learning algorithm on large datasets such as stacked_olci_data, increases electricity usage due to requiring computational power from the computer's CPU. The clustering process can be equally computationally intensive for large images and clusters but for this project k=4, which is a moderate amount of centroids. This reduces the complexity of the computations, reducing energy consumption. (Hess, J. C. (2024, June 20))
 
 ## AI 
 
-The use of AI in an assistive role contributes to electricty and water usage. Large amounts of water and electricity is used to power data centres and water is used to cool the servers. 
+The use of AI in an assistive role contributes to electricty and water usage. Large amounts of water and electricity is used to power data centres and water is used to cool the servers. (Wang, Q., Li, Y. & Li, R. 2024)
 
 To summarise, this research project contributed to energy consumption and gas emissions by tilising satellite data and computational analysis. This can be mitigated by optimizing code to reduce computation time, only using AI when necessary and opting to choose data centres that use more renewable energy sources. 
 
@@ -757,5 +765,24 @@ To summarise, this research project contributed to energy consumption and gas em
 
 This project was created for GEOL0069 at University College London, taught by Dr. Michel Tsamados and Weibin Chen.
 
+## References
+
+Zhang, Y., & Wu, L. (2012). A clustering method based on K-means algorithm. Physics Procedia, 25, 1104–1109. https://doi.org/10.1016/j.phpro.2012.03.206
 
 
+Xu, H. (2006). Modification of normalised difference water index (NDWI) to enhance open water features in remotely sensed imagery. International Journal of Remote Sensing, 27(14), 3025–3033. https://doi.org/10.1080/01431160600589179
+
+
+Wang, Q., Li, Y. & Li, R. Ecological footprints, carbon emissions, and energy transitions: the impact of artificial intelligence (AI). Humanit Soc Sci Commun 11, 1043 (2024). https://doi.org/10.1057/s41599-024-03520-5
+
+
+Hess, J. C. (2024, June 20). Chip Production’s Ecological Footprint: Mapping Climate and Environmental Impact. Interface. https://www.interface-eu.org/publications/chip-productions-ecological-footprint
+
+
+Net Zero Insights. (2025, April 29). How data centers are fueling the digital economy at an environmental cost. https://netzeroinsights.com/resources/how-data-centers-are-fueling-the-digital-economy-at-an-environmental-cost/
+
+
+Olson, E., Grau, A., & Tipton, T. (2024, July 19). Data centers draining resources in water-stressed communities. The University of Tulsa. https://utulsa.edu/news/data-centers-draining-resources-in-water-stressed-communities/
+
+
+European Space Agency. (n.d.). Facts and figures: Sentinel-3. https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-3/Facts_and_figures

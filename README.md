@@ -16,9 +16,13 @@ To provide a an assessment of the k means clustering algorithms performance in d
 References:
 
 EUMETSAT. Sentinel-3 OLCI Level 1 Data Guide. Accessed June 3, 2025. https://user.eumetsat.int/resources/user-guides/sentinel-3-olci-level-1-data-guide.
+
 Copernicus. Sentinel-3 Mission. SentiWiki. Accessed June 3, 2025. https://sentiwiki.copernicus.eu/web/s3-mission.
+
 Sentinel-3 User Handbook, GMES-S3OP-EOPG-TN-13-0001, 2nd September 2013
+
 Sentinel-3, Sentinel Online (esa.int)
+
 University of Calgary (ucalgary.ca) https://www.ucalgary.ca/
 Welcome to the International Coastal Altimetry Community 
 www.coastalt.eu

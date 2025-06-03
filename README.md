@@ -43,6 +43,7 @@ K-Means clustering is an unsupervised learning algorithm that organizes a datase
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/cb02589bfbff763e3311bc67df267abf8deff47e/images/Screenshot%202025-06-03%20000350.png)
 
 As illustrated in the figure above, the Sentinel 3 data encompasses Finland as well as some parts of Russia. The polygon used for data selection can also be seen.
+S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3
 
 ## Data Preparation
 ## Mount Google Drive
@@ -733,3 +734,6 @@ print(f"Saved confusion matrix plot to: {confusion_matrix_save_path}")
 # Display the figure
 plt.show()
 ```
+## Assessment of Environmental Cost of Research Project
+##Satellite Operations: Sentinel 3 OLCI
+This is the most expensive aspect of this project. This is due to the required electronics, metals as well as the energy intesive nature of building such a complex satellite. Sending the Sentinel 3- OLCI into orbit requires a large amount of fossil fuels, contributing to the greenhouse effect. 

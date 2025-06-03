@@ -17,7 +17,7 @@ To provide a an assessment of the k means clustering algorithms performance in d
 K-Means clustering is an unsupervised learning algorithm that organizes a dataset into a pre-defined number of k distinct groups. In this project, K=4. The fundamental principle involves strategically placing k centroids (central points) and then assigning each data point to the closest nearby centroid. This process ensures that points within the same cluster are as tightly grouped together as possible. It is useful when  exploring data with unknown categories since it doesn't require prior labeling of different classes. As such, it is a powerful tool for initial data exploration and uncovering natural groupings. This makes it suitable for this project because clouds are a great example of natural groupings.
 
 ## K means clustering can be broken down into the following steps: ##
-1. Choosing K ## Choose the number of k clusters you want.
+1. Choosing K: Choose the number of k clusters you want.
 2. Centroid Initialization: The initial placement of these k centroids can influence the final clustering outcome.
 3. Assignment: Every data point in the dataset is assigned to the nearest centroid. This "nearest" is determined by calculating the squared Euclidean distance between the assigned data point and each centroid.
 4. Update: After all points are assigned, the centroids are recalculated. Each centroid moves to the average position (the mean) of all the data points currently assigned to its cluster.

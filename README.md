@@ -164,59 +164,26 @@ def main(base_dir):
 main(nc_dir)
 ```
 ## Optional (split data in chunks for manual IRIS classification of clouds) 
-In this notebook we will be using the k means classification method. Alternatively, you can split the data into 5 chunks at this stage and create a mask in IRIS. Here is the code for that:
+In this notebook we will be using the k means classification method. Alternatively, you can split the data into 5 chunks at this stage and create a mask in IRIS. Here is the code to split the data into chunks and then visualise the results:
 ```
-import os
-import netCDF4
-import numpy as np
-import re
-
-
-
 def split_npy(data, num_splits, save_dir, prefix='chunk'):
-
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
     chunks = np.array_split(data, num_splits, axis=0)
-
 
     for i, chunk in enumerate(chunks):
         save_path = os.path.join(save_dir, f"{prefix}_{i+1}.npy")
         np.save(save_path, chunk)
         print(f"Saved chunk {i+1} to {save_path}")
 
-data = np.load('radiance.npy')
+# Load data using the full path
+# Assuming nc_dir is defined from the previous cell
+radiance_npy_path = os.path.join(nc_dir, 'radiance.npy')
+data = np.load(radiance_npy_path)
 
+# Call split_npy
 
-split_npy(data, num_splits=5, save_dir='/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3', prefix='chunk')
-import os
-import netCDF4
-import numpy as np
-import re
-
-
-
-def split_npy(data, num_splits, save_dir, prefix='chunk'):
-
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-
-    chunks = np.array_split(data, num_splits, axis=0)
-
-
-    for i, chunk in enumerate(chunks):
-        save_path = os.path.join(save_dir, f"{prefix}_{i+1}.npy")
-        np.save(save_path, chunk)
-        print(f"Saved chunk {i+1} to {save_path}")
-
-data = np.load('radiance.npy')
-
-
-split_npy(data, num_splits=5, save_dir='/content/drive/MyDrive/dataset', prefix='chunk')
-```
-Use the following code to print and see the data chunks:
-```
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -261,18 +228,23 @@ height, width, num_bands = stacked_olci_data.shape
 ## Define bands for k-means clustering
 ```
 import numpy as np
+# Assuming stacked_olci_data is already loaded and has shape (height, width, 21)
+
+# --- Define the OLCI bands you want to use for clustering ---
+# These are the *0-indexed positions* in your stacked_olci_data array.
+
 
 selected_band_indices = [
-    1,  # Oa02 (412.5 nm)
-    2,  # Oa03 (442.5 nm)
-    7,  # Oa08 (665 nm)
-    11, # Oa12 (753.75 nm)
-    14, # Oa15 (767.5 nm)
-    16, # Oa17 (865 nm)
-    20  # Oa21 (1020 nm)
+    1,   #Oa02 (412.5 nm)
+    2,   #Oa03 (442.5 nm)
+    7,   #Oa08 (665 nm)
+    11,  #Oa12 (753.75 nm)
+    14,  #Oa15 (767.5 nm)
+    16,  #Oa17 (865 nm)
+    20   #Oa21 (1020 nm)
 ]
 
-# Extract only these selected bands from full stacked data
+# Extract only these selected bands from your full stacked data
 features_for_clustering = stacked_olci_data[:, :, selected_band_indices]
 
 # Get the new number of selected bands

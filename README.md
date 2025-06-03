@@ -43,7 +43,8 @@ K-Means clustering is an unsupervised learning algorithm that organizes a datase
 ![image alt](https://github.com/diahara07/Sentinel3-Finland-CloudClassification/blob/cb02589bfbff763e3311bc67df267abf8deff47e/images/Screenshot%202025-06-03%20000350.png)
 
 As illustrated in the figure above, the Sentinel 3 data encompasses Finland as well as some parts of Russia. The polygon used for data selection can also be seen.
-S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3
+
+`S3B_OL_1_EFR____20250527T083223_20250527T083523_20250527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3`
 
 ## Data Preparation
 ## Mount Google Drive
@@ -736,4 +737,23 @@ plt.show()
 ```
 ## Assessment of Environmental Cost of Research Project
 ##Satellite Operations: Sentinel 3 OLCI
-This is the most expensive aspect of this project. This is due to the required electronics, metals as well as the energy intesive nature of building such a complex satellite. Sending the Sentinel 3- OLCI into orbit requires a large amount of fossil fuels, contributing to the greenhouse effect. 
+This is the most expensive aspect of this project. This is due to the required electronics, metals as well as the energy intesive nature of building such a complex satellite. Sending the Sentinel 3- OLCI into orbit requires a large amount of fuel and releases a large amount of greenhouse gases into the atmosphere, contributing to the greenhouse affect. However, this is compensated by the fact that Sentinel-3 is designed for a 7 year operational lifetime with 120 kg of hydrazine propellant allowing up to 12 years of continuous operations. This upfront cost of buildning the satellite is shared amongst its users.
+
+To process satellite data, large amounts of energy is used for cooling systems and electricity to power data centres.  Processing Sentinel 3 Data requires huge data centres such as (EUMETSAT, ESA, Copernicus) which expend loads of energy on cooling systems. 
+
+## Computational Power (Machine Learning - K-Means)
+
+Running the K-means learning algorithm on large datasets such as stacked_olci_data, increases electricity usage due to requiring computational power from the computer's CPU. The clustering process can be equally computationally intensive for large images and clusters but for this project k=4, which is a moderate amount of centroids. This reduces the complexity of the computations, reducing energy consumption. 
+
+## AI 
+
+The use of AI in an assistive role contributes to electricty and water usage. Large amounts of water and electricity is used to power data centres and water is used to cool the servers. 
+
+To summarise, this research project contributed to energy consumption and gas emissions by tilising satellite data and computational analysis. This can be mitigated by optimizing code to reduce computation time, only using AI when necessary and opting to choose data centres that use more renewable energy sources. 
+
+<!-- ACKNOWLEDGMENTS -->
+
+This project was created for GEOL0069 at University College London, taught by Dr. Michel Tsamados and Weibin Chen.
+
+
+

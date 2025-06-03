@@ -765,7 +765,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report # Ensure classification_report is imported
 
 # --- Re-load your stacked radiance data (if not already in memory) ---
-nc_dir = '/content/drive/dataset'
+nc_dir = '/content/drive/MyDrive/FINLAND CLOUD DATA/FINLAND SENTINEL 3 DATA/S3B_OL_1_EFR____20250527T083223_20250527T083527T114347_0179_107_064_1800_ESA_O_NR_004.SEN3'
 radiance_npy_path = os.path.join(nc_dir, 'radiance.npy')
 
 try:
@@ -824,8 +824,8 @@ cluster_map = cluster_labels.reshape(height, width)
 
 
 # --- Identify the K-Means CLOUD cluster ID(s) ---
-
-kmeans_cloud_cluster_ids = [1, 2] # <--- replace with observed cloud cluster IDs
+# YOU MUST REPLACE THIS LIST WITH YOUR ACTUAL CLOUD CLUSTER ID(s).
+kmeans_cloud_cluster_ids = [2, 3] # <--- REPLACE THIS LIST WITH YOUR ACTUAL CLOUD CLUSTER ID(s)
 
 # Create a combined K-Means cloud mask based on the identified cluster IDs
 # Use 0/1 mask for confusion matrix
@@ -840,9 +840,6 @@ print(f"NDWI water mask (0/1) created. Water pixels: {np.sum(water_mask_ndwi > 0
 
 # --- Prepare data for Confusion Matrix ---
 # Flatten the 2D masks into 1D arrays
-# Compare NDWI Water (True labels) vs K-Means Cloud (Predicted labels).
-# Define classes: 0 = Not Water/Not Cloud, 1 = Water/Cloud
-
 true_labels = water_mask_ndwi.flatten()
 predicted_labels = kmeans_cloud_mask.flatten() # Comparing against the cloud mask
 
@@ -870,6 +867,15 @@ cm = confusion_matrix(true_labels_filtered, predicted_labels_filtered, labels=la
 print("\nConfusion Matrix (Rows=NDWI Water, Columns=K-Means Cloud):")
 print(cm)
 
+# Calculate overall pixel-wise agreement
+# Agreement = (Pixels where NDWI is Not Water AND KMeans is Not Cloud) + (Pixels where NDWI is Water AND KMeans is Cloud)
+agreement_pixels = cm[0, 0] + cm[1, 1]
+total_filtered_pixels = np.sum(cm) # Sum of all values in the confusion matrix
+overall_agreement_percentage = (agreement_pixels / total_filtered_pixels) * 100 if total_filtered_pixels > 0 else 0
+
+print(f"\nOverall Pixel-wise Agreement: {overall_agreement_percentage:.2f}%")
+
+
 # Plotting the confusion matrix
 fig, ax = plt.subplots(figsize=(8, 8)) # Adjust size as needed
 cmp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=display_pred_labels) # Use predicted labels for columns
@@ -888,12 +894,13 @@ if not os.path.exists(save_dir):
     os.makedirs(save_dir)
     print(f"Created directory: {save_dir}")
 
-# Save the figure 
+# Save the figure BEFORE showing it
 plt.savefig(confusion_matrix_save_path, bbox_inches='tight')
 print(f"Saved confusion matrix plot to: {confusion_matrix_save_path}")
 
-# Display the figure
+# Display the figure (optional)
 plt.show()
+
 ```
 ### Project Conclusion
 
